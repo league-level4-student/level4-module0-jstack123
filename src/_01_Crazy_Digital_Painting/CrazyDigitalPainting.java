@@ -1,16 +1,25 @@
 package _01_Crazy_Digital_Painting;
 
-public class CrazyDigitalPainting {
-	//1. Create two final static integers for the width and height of the display.
+import java.awt.Color;
 
-	
-	//2. Create a 2D array of Color objects. You will need to import
-	//java.awt.Color. Initialize the size of the array using the 
-	//integers created in step 1.
-	
-	
-	
+public class CrazyDigitalPainting {
+	// 1. Create two final static integers for the width and height of the display.
+	final int width = 500;
+	final int height = 500;
+
+	// 2. Create a 2D array of Color objects. You will need to import
+	// java.awt.Color. Initialize the size of the array using the
+	// integers created in step 1.
+	Color[][] colors = new Color[width][height];
+
 	public CrazyDigitalPainting() {
+		
+		for (int i = 0; i < colors.length; i++) {
+			for (int j = 0; j < colors.length; j++) {
+				colors[i][j] = new Color(i % 150, (i * j) % 150, j % 150); //red,green,blue
+			}
+			
+		}
 		//3. Open the crazy_digital_painting.png file and look at the image.
 		
 		//4. Iterate through the 2D array and initialize each Color object
@@ -22,9 +31,11 @@ public class CrazyDigitalPainting {
 		
 		//6. Use the ColorArrayDisplayer class to call the displayColorsAsImage method 
 		//   to show off your picture.
+		ColorArrayDisplayer.displayColorsAsImage(colors);
 	}
-	
+
 	public static void main(String[] args) {
 		new CrazyDigitalPainting();
+		
 	}
 }

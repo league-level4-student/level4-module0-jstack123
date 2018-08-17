@@ -1,3 +1,4 @@
+
 package _02_Pixel_Art;
 
 import java.awt.Color;
@@ -41,7 +42,7 @@ public class GridPanel extends JPanel {
 
 		for (int i = 0; i < pixels.length; i++) {
 			for (int j = 0; j < pixels.length; j++) {
-				//pixels[i][j] = new Pixel();
+				pixels[i][j] = new Pixel(pixelWidth, pixelHeight);
 			}
 		}
 
@@ -66,7 +67,9 @@ public class GridPanel extends JPanel {
 		
 		for (int i = 0; i < pixels.length; i++) {
 			for (int j = 0; j < pixels.length; j++) {
-				
+				g.setColor(color);
+				g.drawRect(i, j, pixelWidth, pixelHeight);
+				System.out.println("hi");
 			}
 		}
 		

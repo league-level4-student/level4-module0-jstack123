@@ -29,15 +29,15 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		this.cellsPerRow = cpr;
 
 		// 2. Calculate the cell size.
-		cellSize = h/cpr;
+		cellSize = h / cpr;
 		// 3. Initialize the cell array to the appropriate size.
-		cells = new Cell[w/cpr][h/cpr];
+		cells = new Cell[cellSize][cellSize];
 		// 3. Iterate through the array and initialize each cell.
 		// Don't forget to consider the cell's dimensions when
 		// passing in the location.
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				cells[i][j] = new Cell(i*cellSize,j*cellSize, cellSize);
+				cells[i][j] = new Cell(i * cellSize, j * cellSize, cellSize);
 			}
 		}
 	}
@@ -47,11 +47,17 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// cell's isAlive memeber to true or false
 		boolean isAlive;
 		Random random = new Random();
-		random.nextInt(2);
-		System.out.println(random);
+		int r;
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				
+				r = random.nextInt(2);
+				System.out.println(r);
+				if (r == 0) {
+					cells[i][j].isAlive = true;
+				} else {
+					cells[i][j].isAlive = false;
+				}
+
 			}
 		}
 		repaint();
@@ -59,6 +65,12 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 
 	public void clearCells() {
 		// 5. Iterated through the cells and set them all to dead.
+
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				cells[i][j].isAlive = false;
+			}
+		}
 
 		repaint();
 	}
@@ -78,7 +90,11 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	@Override
 	public void paintComponent(Graphics g) {
 		// 6. Iterate through the cells and draw them all
-
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				cells[i][j].draw(g);
+			}
+		}
 		// draws grid
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
@@ -87,9 +103,19 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	// advances world one step
 	public void step() {
 		// 7. iterate through cells and get their neighbors
-
+		int[][] neighbors = new int[cellSize][cellSize];
+		// int livingN = 0;
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				neighbors[i][j] = getLivingNeighbors(i, j);
+			}
+		}
 		// 8. check if each cell should live or die
-
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				cells[i][j].liveOrDie(neighbors[i][j]);
+			}
+		}
 		repaint();
 	}
 
@@ -97,7 +123,12 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	// It returns an array list of the 8 or less neighbors of the
 	// cell identified by x and y
 	public int getLivingNeighbors(int x, int y) {
-		return 0;
+		int numNeighbors = 0;
+		if (cells[x][y].isAlive == true) {
+			numNeighbors += 1;
+		}
+
+		return numNeighbors;
 	}
 
 	@Override
@@ -122,6 +153,13 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// 10. Use e.getX() and e.getY() to determine
 		// which cell is clicked. Then toggle
 		// the isAlive variable for that cell.
+
+		if (cells[e.getX()][e.getY()].isAlive == true) {
+			cells[e.getX()][e.getY()].isAlive = false;
+		}
+		if (cells[e.getX()][e.getY()].isAlive == false) {
+			cells[e.getX()][e.getY()].isAlive = true;
+		}
 
 		repaint();
 	}

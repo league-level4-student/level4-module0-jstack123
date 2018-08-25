@@ -62,6 +62,7 @@ public class Cell implements Drawable {
 		if (isAlive == true) {
 			g.setColor(Color.BLUE);
 			g.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+			g.setColor(Color.BLACK);
 			g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
 		}
 		if (isAlive == false) {

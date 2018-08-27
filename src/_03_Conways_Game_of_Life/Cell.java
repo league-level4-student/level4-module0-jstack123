@@ -31,11 +31,9 @@ public class Cell implements Drawable {
 		if (isAlive == true) {
 			if (numNeighbors < 2) {
 				isAlive = false;
-			}
-			if (numNeighbors == 2 || numNeighbors == 3) {
+			} else if (numNeighbors == 2 || numNeighbors == 3) {
 				isAlive = true;
-			}
-			if (numNeighbors > 3) {
+			} else if (numNeighbors > 3) {
 				isAlive = false;
 			}
 		} else if (isAlive == false) {
@@ -61,13 +59,13 @@ public class Cell implements Drawable {
 	public void draw(Graphics g) {
 		if (isAlive == true) {
 			g.setColor(Color.BLUE);
-			g.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+			g.fillRect(x, y, cellSize, cellSize);
 			g.setColor(Color.BLACK);
-			g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
+			g.drawRect(x, y, cellSize, cellSize);
 		}
 		if (isAlive == false) {
 			g.setColor(Color.BLACK);
-			g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
+			g.drawRect(x, y, cellSize, cellSize);
 		}
 	}
 }

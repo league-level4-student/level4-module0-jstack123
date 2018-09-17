@@ -41,19 +41,20 @@ public class MazeMaker {
 
 		// C. if has unvisited neighbors,
 		if (neighborsUnvisited.size() > 0) {
-			Random r = new Random();
-			int randCellW = r.nextInt(neighborsUnvisited.size());
-			int randCellH = r.nextInt(neighborsUnvisited.size());
-
-			Cell newCell = uncheckedCells.push(maze.getCell(randCellW, randCellH));
+			int randCell = randGen.nextInt(neighborsUnvisited.size());
+			//int randCellH = randGen.nextInt(neighborsUnvisited.size());
+			
+			Cell newCell = neighborsUnvisited.get(randCell);
+			//Cell newCell = maze.getCell(randCell);
+			uncheckedCells.push(newCell);
 			removeWalls(currentCell, newCell);
 			currentCell = newCell;
-			currentCell.setBeenVisited(true);
+			//currentCell.setBeenVisited(true);
 			selectNextPath(currentCell);
 		}
 
 		// D
-		if (neighborsUnvisited.size() == 0) {
+		else {
 			if (uncheckedCells.size() > 0) {
 				Cell poppedCell = uncheckedCells.pop();
 				currentCell = poppedCell;
@@ -132,7 +133,32 @@ public class MazeMaker {
 				unvisitedNeighbors.add(downC);
 			}
 		}
-
+System.out.println(unvisitedNeighbors.size());
 		return unvisitedNeighbors;
+	}
+	
+	public Cell createEntranceAndExit(Cell enCell,Cell exCell) {
+		ArrayList<Cell> perimeter = new ArrayList<Cell>();
+		Random pr = new Random();
+		Cell newEnCell = maze.getCell(enCell.getX(), enCell.getY());
+		Cell newExCell = maze.getCell(exCell.getX(), exCell.getY());
+		
+		for (int i = 0; i < maze.getWidth() * maze.getHeight(); i++) {
+		//	for (int j = 0; j < maze.getWidth() * maze.getHeight(); j++) {
+				if (newEnCell.getX()>0 && newEnCell.getX()<2 || newEnCell.getY()>0 && newEnCell.getY()<2) {
+					perimeter.add(newEnCell);
+				}
+		//	}
+		}
+		
+		int pCell = pr.nextInt(perimeter.size());
+
+		
+		enCell = perimeter.get(pCell);
+		exCell = perimeter.get(pCell);
+		removeWalls();
+		return enCell;
+		return exCell;
+		
 	}
 }

@@ -114,10 +114,12 @@ public class PixelArtMaker implements MouseListener, ActionListener {
 		}
 
 		if (e.getSource().equals(load)) {
+			
 			GridPanel gp = load();
-			window.remove(gp);
-
 			this.gp=gp;
+			window.remove(gp);
+	
+			
 			window.add(gp);
 			
 		}
